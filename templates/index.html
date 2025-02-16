@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResearchKoTo</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="../static/loading.css">
+    <link rel="stylesheet" href="../static/initial.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+   <div class="initial-state" id="initialState">
+      <h1 class="main-title">ResearchKoTo</h1>
+      <h2 class="subtitle">Elevate your research writing with power of AI</h2>
+      <p class="start-text">To start, enter a paper identifier</p>
+      
+      <div class="search-wrapper">
+        <input type="text" id="initialSearchQuery" class="search-input" placeholder="Search by keywords, paper title, DOI or another identifier">
+          <button class="build-graph-btn" onclick="performInitialSearch()">
+             Search
+          </button>
+      </div>
+  
+      <p class="try-text">Online Repositories:</p>
+      <div class="source-options">
+        <div class="source-option">
+            <i class="fas fa-book"></i>
+            <span>arXiv</span>
+        </div>
+        <div class="source-option">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Google Scholar</span>
+        </div>
+        <div class="source-option">
+            <i class="fas fa-microscope"></i>
+            <span>PubMed</span>
+        </div>
+        <div class="source-option">
+            <i class="fas fa-database"></i>
+            <span>CORE</span>
+        </div>
+        <div class="source-option">
+            <i class="fas fa-link"></i>
+            <span>Crossref</span>
+        </div>
+    </div>
+  </div>
+  
+  <div class="loading-state" id="loadingState" style="display: none;">
+      <div class="loading-content">
+          <div class="loading-spinner"></div>
+          <p>Building your research graph...</p>
+      </div>
+  </div>
+    <!-- Search State -->
+    <div class="search-state" id="searchState" style="display: none;">
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1 class="nav-title">ResearchKoTo</h1>
+                <div class="search-container">
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="searchQuery" placeholder="Search for articles...">
+                    </div>
+                    <div class="button-group">
+                        <button class="search-btn" onclick="searchArticles()">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                        <a href="citation.html">
+                            <button class="cite-btn">
+                                <i class="fas fa-quote-right"></i> Cite Article
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="container">
+            <div class="articles-section" id="articles"></div>
+            <div id="network">
+                <div class="visualization-controls">
+                    <button id="zoomIn"><i class="fas fa-plus"></i></button>
+                    <button id="zoomOut"><i class="fas fa-minus"></i></button>
+                    <button id="resetView"><i class="fas fa-sync"></i></button>
+                </div>
+            </div>
+        </main>
+
+        <div id="metadata" class="metadata-panel">
+            <span class="close-btn"><i class="fas fa-times"></i></span>
+            <h2>Article Metadata</h2>
+            <div class="metadata-content">
+                <p><strong>Title:</strong> <span id="meta-title"></span></p>
+                <p><strong>Year:</strong> <span id="meta-year"></span></p>
+                <p><strong>Authors:</strong> <span id="meta-authors"></span></p>
+                <p><strong>Abstract:</strong> <span id="meta-abstract"></span></p>
+                <p><strong>Classifications:</strong> <span id="meta-classifications"></span></p>
+                <p><strong>Source:</strong> <a id="meta-link" target="_blank">Link to Article</a></p>
+                <p class="pdf-download" id="pdf-container">
+                    <strong>PDF:</strong> 
+                    <a id="pdf-link" target="_blank" class="download-btn">
+                        <i class="fas fa-file-pdf"></i> Download PDF
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script src="../static/fetcharticle.js"></script>
+    <script src="../static/loading.js"></script>
+    <script type="module">
+
+        // Import the functions you need from the SDKs
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
+    
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCO1x1z7Vbp-ZLS95UTCJ2wUEAofWdU3cg",
+            authDomain: "researchkoto-74bd6.firebaseapp.com",
+            databaseURL: "https://researchkoto-74bd6-default-rtdb.firebaseio.com",
+            projectId: "researchkoto-74bd6",
+            storageBucket: "researchkoto-74bd6.firebasestorage.app",
+            messagingSenderId: "41049958088",
+            appId: "1:41049958088:web:9171708315ae38438d67fd"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        // Get reference to database service
+        const db = getDatabase(app);
+
+        // Select all bookmark icons
+        const bookmarkIcons = document.querySelectorAll(".fa-bookmark");
+
+        // Loop through each bookmark icon to check for class and perform actions
+        bookmarkIcons.forEach(bookmarkIcon => {
+            if(bookmarkIcon.classList.contains('fas')){
+                set(ref(db, 'user/' + document.querySelector("h3").value),{
+
+                title: document.querySelector("h3").value,
+                year: document.getElementsByClassName("year").value,
+                authors: document.getElementsByClassName("authors").value
+
+                });
+            }
+        });
+    
+    </script>
+</body>
+</html>

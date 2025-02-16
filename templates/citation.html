@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate In-text Citation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='citation.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Left Section -->
+        <div class="left-section">
+            <h1>Generate In-text Citation</h1>
+            <form action="/upload" method="post" enctype="multipart/form-data" id="citationForm">
+                <!-- File Input -->
+                <div class="file-input" id="fileInputArea">
+                    <input type="file" name="pdf_file" id="fileInput" accept=".pdf" required>
+                    <p>Choose a PDF file or drag it here</p>
+                </div>
+
+                <!-- Text Input -->
+                <div class="text-input">
+                    <label for="study_description">Study Description</label>
+                    <textarea 
+                        id="study_description"
+                        name="study_description" 
+                        placeholder="Describe how you will use this study in your research..." 
+                        required></textarea>
+                </div>
+
+                <!-- Citation Style Dropdown -->
+                <div class="dropdown">
+                    <label for="citation_style">Citation Style</label>
+                    <select name="citation_style" id="citation_style">
+                        <option value="APA">APA</option>
+                        <option value="IEEE">IEEE</option>
+                        <option value="ACM">ACM</option>
+                        <option value="MLA">MLA</option>
+                    </select>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="generate-btn">
+                    <span class="btn-text">Generate Citation</span>
+                    <div class="loader" id="btnLoader"></div>
+                </button>
+
+                <!-- Status Messages -->
+                <div class="status-container">
+                    <div class="loading" id="loadingIndicator">
+                        Processing your request...
+                    </div>
+                    <div class="error-message" id="errorMessage"></div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Right Section -->
+        <div class="right-section">
+            <h2>Generated Citations</h2>
+            <div class="output-box">
+                {% if citations %}
+                    <div class="citation-section">
+                        <h3>In-text Citation</h3>
+                        <div class="citation-content">
+                            {{ citations['In-text']|safe }}
+                        </div>
+                    </div>
+        
+                    <div class="citation-section">
+                        <h3>Reference Citation</h3>
+                        <div class="citation-content">
+                            {{ citations['Reference']|safe }}
+                        </div>
+                    </div>
+                {% else %}
+                    <p class="placeholder-text">Citations will appear here after you upload a PDF and generate them.</p>
+                {% endif %}
+            </div>
+        
+            {% if full_analysis %}
+            <div class="analysis-section">
+                <h3>Summary Analysis</h3>
+                <div class="analysis-content">
+                    {{ full_analysis }}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 In-text Citation Generator. All rights reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='citations.js') }}"></script>
+</body>
+</html>

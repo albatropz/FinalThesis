@@ -1,0 +1,146 @@
+.initial-state {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 80px; /* Reduced padding for better spacing */
+    background: #ffffff;
+}
+
+.main-title {
+    font-size: 48px;
+    color: #2196F3;
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.subtitle {
+    position: relative;
+    font-size: 24px;
+    color: #555;
+    margin-bottom: 40px;
+    font-weight: 400;
+    text-align: center;
+    width: fit-content;
+    margin: 0 auto 40px;
+    overflow: hidden;
+    border-right: 2px solid #555;
+    white-space: nowrap;
+    animation: 
+        typing 3.5s steps(40, end) forwards,
+        blink-caret .75s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 490px; } /* Fixed width instead of percentage */
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #555 }
+}
+
+.start-text {
+    color: #666;
+    margin-bottom: 24px;
+    font-size: 16px;
+}
+
+.search-wrapper {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    gap: 16px;
+    margin-bottom: 48px;
+    padding: 0 20px;
+}
+
+.search-wrapper input {
+    flex: 1;
+    padding: 14px 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.search-wrapper input:focus {
+    outline: none;
+    border-color: #2196F3;
+    box-shadow: 0 2px 8px rgba(33,150,243,0.1);
+}
+
+.build-graph-btn {
+    padding: 14px 28px;
+    background: #ffc107;
+    color: #000;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.build-graph-btn:hover {
+    background: #ffb300;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.try-text {
+    color: #666;
+    margin-bottom: 28px;
+    font-size: 16px;
+}
+
+.source-options {
+    display: flex;
+    gap: 56px;
+    margin-top: 20px;
+}
+
+.source-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: #2196F3;
+    transition: transform 0.3s ease;
+}
+
+.source-option:hover {
+    transform: translateY(-2px);
+}
+
+.source-option i {
+    font-size: 28px;
+    margin-bottom: 4px;
+}
+
+.source-option span {
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+}
+@keyframes changePlaceholder {
+    0%, 25% {
+        content: "Try: 'Machine Learning in Healthcare'";
+    }
+    30%, 55% {
+        content: "Try: '10.1038/s41586-021-03819-2'";
+    }
+    60%, 85% {
+        content: "Try: 'Deep Learning Survey 2023'";
+    }
+    90%, 100% {
+        content: "Try: 'arXiv:2301.04655'";
+    }
+}
+
+.search-input::placeholder {
+    animation: changePlaceholder 12s infinite;
+}
